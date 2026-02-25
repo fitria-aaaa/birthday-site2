@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>02 Maret 2006 </title>
+<style>
+body{
+margin:0;
+font-family:Georgia,serif;
+background:#ffffff;
+overflow:hidden;
+color:#1e3a5f;
+position:relative;
+}
+
+/* SLIDER */
+.slider{
+display:flex;
+width:300%;
+height:100vh;
+transition:transform 1.2s ease-in-out;
+}
+
+.slide{
+width:100%;
+flex-shrink:0;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+padding:25px;
+text-align:center;
+}
+
+/* FOTO */
+.slide img{
+width:90%;
+max-width:450px;
+border-radius:18px;
+box-shadow:0 25px 50px rgba(0,0,0,0.15);
+margin-bottom:25px;
+}
+
+/* TEKS */
+.typewriter{
+font-size:17px;
+line-height:1.8;
+min-height:150px;
+max-width:550px;
+color:#1e3a5f;
+}
+
+/* BUTTON */
+button{
+margin-top:25px;
+padding:10px 28px;
+border:none;
+border-radius:30px;
+background:#3b82f6;
+color:white;
+font-size:14px;
+cursor:pointer;
+}
+
+/* COVER */
+.cover{
+position:absolute;
+width:100%;
+height:100vh;
+background:#ffffff;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+z-index:10;
+transition:opacity 1s ease;
+}
+
+.cover.hide{
+opacity:0;
+pointer-events:none;
+}
+
+h1{
+font-size:24px;
+margin-bottom:10px;
+}
+
+h2{
+font-size:18px;
+opacity:0.7;
+margin-bottom:20px;
+}
+
+/* END */
+.end{
+position:absolute;
+width:100%;
+height:100vh;
+background:white;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+opacity:0;
+transition:opacity 2s ease;
+pointer-events:none;
+text-align:center;
+padding:20px;
+}
+
+.end.show{
+opacity:1;
+}
+
+.glow{
+font-size:22px;
+text-shadow:0 0 18px #6aa9ff;
+margin-bottom:15px;
+}
+
+.signature{
+opacity:0.7;
+font-size:14px;
+}
+
+/*  ANIMASI LOVE */
+.heart{
+position:absolute;
+width:20px;
+height:20px;
+background:transparent;
+animation:fall 5s linear infinite;
+z-index:1;
+}
+
+.heart:before,
+.heart:after{
+content:"";
+position:absolute;
+width:10px;
+height:16px;
+background:#3b82f6;
+border-radius:10px 10px 0 0;
+transform:rotate(-45deg);
+transform-origin:0 100%;
+}
+
+.heart:after{
+transform:rotate(45deg);
+transform-origin:100% 100%;
+}
+
+/*  STICKER LUCU */
+.sticker{
+position:absolute;
+font-size:18px;
+animation:stickMove 4s linear infinite;
+opacity:0.8;
+}
+
+@keyframes fall{
+0%{transform:translateY(-50px) translateX(0);}
+100%{transform:translateY(110vh) translateX(50px);}
+}
+
+@keyframes stickMove{
+0%{transform:translateY(-50px) translateX(0);}
+100%{transform:translateY(110vh) translateX(50px);}
+}
+</style>
+
+<script>
+let currentSlide=0;
+let typingInterval;
+
+function start(){
+document.querySelector(".cover").classList.add("hide");
+playMusic();
+showSlide(0);
+createHearts();
+createStickers();
+}
+
+function nextSlide(){
+currentSlide++;
+if(currentSlide<3){
+showSlide(currentSlide);
+}else{
+document.querySelector(".end").classList.add("show");
+}
+}
+
+function showSlide(index){
+document.querySelector(".slider").style.transform=
+"translateX(-"+(index*100)+"%)";
+
+const textElement=document.querySelectorAll(".typewriter")[index];
+const text=textElement.getAttribute("data-text");
+textElement.innerHTML="";
+let i=0;
+
+clearInterval(typingInterval);
+typingInterval=setInterval(()=>{
+textElement.innerHTML+=text.charAt(i);
+i++;
+if(i>=text.length)clearInterval(typingInterval);
+},30);
+}
+
+//  CREATE LOVE
+function createHearts(){
+for(let i=0;i<15;i++){
+let heart=document.createElement("div");
+heart.classList.add("heart");
+heart.style.left=Math.random()*100+"vw";
+heart.style.animationDuration=(3+Math.random()*3)+"s";
+heart.style.opacity=Math.random();
+document.body.appendChild(heart);
+}
+}
+
+//  CREATE STICKER LUCU
+function createStickers(){
+const stickers=["","","","",""];
+for(let i=0;i<12;i++){
+let s=document.createElement("div");
+s.classList.add("sticker");
+s.innerHTML=stickers[Math.floor(Math.random()*stickers.length)];
+s.style.left=Math.random()*100+"vw";
+s.style.fontSize=(12+Math.random()*16)+"px";
+s.style.animationDuration=(3+Math.random()*3)+"s";
+document.body.appendChild(s);
+}
+}
+
+//  PLAY MUSIC
+function playMusic(){
+let audio=document.getElementById("bgmusic");
+audio.play();
+}
+</script>
+</head>
+
+<body>
+
+<!-- AUDIO -->
+<audio id="bgmusic" autoplay loop>
+<source src="about_you_reff.mp3" type="audio/mpeg">
+</audio>
+
+<div class="cover">
+<h1>your birthday</h1>
+<h2>02 Maret 2006</h2>
+<button onclick="start()">mulai birthday</button>
+</div>
+
+<div class="slider">
+
+<div class="slide">
+<img src="foto1.jpeg">
+<div class="typewriter" data-text="di tanggal ini, seseorang yang istimewa hadir dan membuat dunia terasa sedikit lebih hangat. mungkin semesta tidak sadar, tetapi hari itu ia sedang menitipkan cahaya pada seorang laki-laki yang kelak tumbuh dengan caranya sendiri. dan sejak aku mengenalmu, aku tahu cahaya itu nyata. bukan hanya dari senyummu, tetapi dari caramu memperlakukan dunia dengan lembut, dengan sabar, dengan hati yang jarang dimiliki banyak orang."></div>
+<button onclick="nextSlide()">selanjutnya</button>
+</div>
+
+<div class="slide">
+<img src="foto2.jpeg">
+<div class="typewriter" data-text="senyummu adalah rumah yang tenang, tempat segala lelah ingin pulang. caramu tertawa seperti pengingat bahwa hidup tak selalu harus tergesa. aku menyukai caramu berjalan pelan, caramu bercerita, bahkan caramu diam. di antara banyak hal yang tak pasti di dunia ini, entah mengapa melihatmu baik-baik saja selalu menjadi doaku yang paling sungguh. karena bahagiaku sederhana, cukup tahu bahwa kamu baik-baik saja dan tetap menjadi dirimu sendiri."></div>
+<button onclick="nextSlide()">selanjutnya</button>
+</div>
+
+<div class="slide">
+<img src="foto3.jpeg">
+<div class="typewriter" data-text="bertambahnya usiamu bukan hanya tentang angka, tetapi tentang langkah yang sudah kau tempuh dengan berani. semoga tahun-tahun ke depan membawamu pada bahagia yang lebih luas, mimpi yang lebih dekat, dan hati yang tetap hangat seperti sekarang. dan jika suatu hari dunia terasa berat, ingatlah bahwa ada seseorang di sini yang selalu mendoakanmu dalam diam, yang diam-diam menyebut namamu dalam harapan, dan yang selalu bersyukur karena kamu pernah hadir di hidupnya."></div>
+<button onclick="nextSlide()">akhir</button>
+</div>
+
+</div>
+
+<div class="end">
+<div class="glow">
+terima kasih sudah lahir,  
+terima kasih sudah tumbuh,  
+dan terima kasih telah menjadi seseorang yang begitu berarti 
+</div>
+<div class="signature">
+— dari aku, yang selalu mendoakanmu
+</div>
+</div>
+
+</body>
+</html>
